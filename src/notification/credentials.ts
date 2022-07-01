@@ -1,0 +1,12 @@
+export const firebaseCredentials: any = {
+  "type": "service_account",
+  "project_id": "qa-dashboard-admin-brdge-store",
+  "private_key_id": "352f334df9fd1ca30f8ca3c24f2a0796f2137b8e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCmz2WiTL9Gp9Lp\nd2Tfxt0WxqcZI6OdvpY3Sm2fRJfyxbDGiMN9v2G1Fr7EjZSTc6wfpK2jivzrxJRD\nrh5y64OkNF9KjzNjs7UZSX3IlhZaUri9DYbNBAD5QxEtlhfcDJNVxoEoBqvSBrwr\np5pjckbE86tPh4yG9L8gjTnDxaarG5NajIp0WOTMLfocXr6ZEv9uzbrtB4nOipLs\nsJHAC5TU3B9pZwvK0MGEYJaGwh9Wtw8kLhKD56NdVpvLW3sbildJmAGKROjbP3xT\nsHTUuipv4FvZVP4zIivRtll3jPIsT/g0Nz3GDfL1YPWy611AnVvx9f5ZRn2hfcNA\n0X/Op5fvAgMBAAECggEAAfmZbhFW44kalq1jmU7l9DrNj1gG2J8dqhUlWFg8EIxJ\nNs3iEG9b0NnnXjVkCY8dxRiWGtRuuZ+sRQ37bYge4A45IX8jjK4KEyegbue3keyJ\nJDDF3VAZp/ZPQ9AvvD5oUUfyyBWYIt2gjGP+Hq+jhd2OQmovmuxXBdyWMqqxljSx\npieXfRqYglFQCV8m8Zb7ZSFsukYfbWJEXOvffzJbEBElKoph5IzdsDpDb7sfdcfh\nQdjmNiAboK2W3SgRWpKIEaGUjvmV//grYPJUtYw0/0LYW69QFf670ZzE0T9Yxd1g\nyC0y3ZroqQciLq6beg7KKFu1pAGLabzR0WYV1sRlKQKBgQDSt5/KxTfaMWCuFfN2\n2X9G07aZciUL1siDaFIypPSfKI/2G4spoZC5+evcA2QVFkgxRk7QdHmu7uED9NHl\nmReS3sNkP2vBm3mY95DYhtzMUZRTNdNd9AaVKwt1OC450fsojzeOg9MKL/mf4ceX\nKnh99/awL6Ny0/iOug/BW7//9wKBgQDKqEVNr977wAzWIK1X9oPVv5HC6Rv1zNKV\nzk2N4GTmd5tInzkpuJtbZsRjDKZSPih4mQg0LVjPt0gpA3vxo7K5qNfQfDJxGK0x\ntt/GR+FnT8g6UYm6y5EaApz3agphzqbbocd+F4sMIVFhkldH1mGl5XB8nD3R6I1T\nLHILcTuZyQKBgAtpMDkN1wl01RR4UdfkzVSrkF7c5I6wkekz1Ae0ER8xViJwuWeG\nvUyk8RXYBSpzK3OnqAr308MaYosRTfCOCs3ETHZ4TMCOR9Z1yZ1AKGLUJCEhcBHN\nbjHTw+oUIcS1z1ER+GM6Vkpd8Lmsw183SJEhxXUjD0nfmr037DR/YHVfAoGBAKoc\nfbAshNyF5UCIxXkk8J0n5U7bJiE6ATrGpcsGJSxgEfTv0qf20lHy/b63C5XVn1s7\n+eryda5Gh0gGKLA5XPkDhcT3u8+7iwZEH6rtA4QZMFXjw90Mq4xNzTzRwk0/jkim\nkDKDyLAx94ITuTgP+H+tDLNM44ej0Z2TnVeFgSYhAoGBAI8MR7oQXblrVWq0JkSe\nvQMDDL8Vm8gbyhx9ZGXVeu2HCBAB9cprIbzaPR9yoqHe5/ffNfTfBTesUTgVrhvZ\nZkQyB4eZfi4Yq6hEYMrMLrAZgvdcK5l2TMEhY26glSVEj0OO+vYmjAJlbwUBzhe6\nz74VGRRB9Da3IzbqH/aShFUC\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-py7l2@qa-dashboard-admin-brdge-store.iam.gserviceaccount.com",
+  "client_id": "110866432246556043843",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-py7l2%40qa-dashboard-admin-brdge-store.iam.gserviceaccount.com"
+}
