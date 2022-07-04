@@ -18,5 +18,20 @@ export default () => ({
     name: process.env.TYPEORM_DATABASE,
     synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
     subscribers: process.env.TYPEORM_SUBSCRIBERS,
-  }
+  },
+  CATEGORY_STATUS: {
+    ACTIVE: 1,
+    DISABLED: 2,
+    REMOVED: 3,
+  },
+  ROOM_STATUS: {
+    ACTIVE: 1,
+    DISABLED: 2,
+    REMOVED: 3,
+  },
+  USER_STATUS: {
+    ACTIVE: 1,
+    DISABLED: 2,
+    REMOVED: 3,
+  },
 });

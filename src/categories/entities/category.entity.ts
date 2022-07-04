@@ -8,7 +8,7 @@ import {
   AfterInsert,
 } from 'typeorm';
 import { BaseEntity } from '../../entities/base.entity';
-import { Service } from '../../services/entities/service.entity';
+import { Room } from '../../rooms/entities/rooms.entity';
 
 @Entity()
 @Unique(['name'])
@@ -19,26 +19,17 @@ export class Category extends BaseEntity {
   @Column()
   name: String;
 
-  @Column({ nullable: true })
-  parentCategoryId: Number;
-
-  @ManyToOne(() => Category, category => category.subCategories, {nullable: true})
-  parentCategory: Category;
-
-  @OneToMany(() => Category, category => category.parentCategory)
-  subCategories: Category[];
-
-  @Column({ default: false })
+  @Column({ default: false, name: 'is_default' })
   isDefault: Boolean;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'image_url' })
   imageUrl: String;
 
   @Column({ default: 1 })
   status: Number;
 
-  @OneToMany(() => Service, service => service.category)
-  services: Service[];
+  @OneToMany(() => Room, room => room.category)
+  rooms: Room[];
 
   toJSON() {
     return this;

@@ -23,7 +23,7 @@ export class Setting extends BaseEntity {
     type: String,
     description: "API base url"
   })
-  @Column()
+  @Column({ name: 'base_url', nullable: true })
   baseUrl: string;
 
   @ApiProperty({
@@ -41,6 +41,7 @@ export class Setting extends BaseEntity {
   })
   @Column({
     default: true,
+    name: 'is_active'
   })
   isActive: boolean;
 

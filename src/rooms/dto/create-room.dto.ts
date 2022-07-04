@@ -31,4 +31,18 @@ export class CreateRoomDto {
   @IsNotEmpty()
   @IsString()
   address: string
+
+  @ApiProperty({
+    type: Number,
+    required: false,
+  })
+  @IsNumber()
+  lat: number
+
+  @ApiProperty({
+    type: Number,
+    required: false,
+  })
+  @IsNumber()
+  lng: number
 }

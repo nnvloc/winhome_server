@@ -20,7 +20,7 @@ export class User extends BaseEntity {
   @Column()
   firstName: string;
 
-  @Column()
+  @Column({ name: 'last_name' })
   lastName: string;
 
   @Column()
@@ -31,16 +31,19 @@ export class User extends BaseEntity {
 
   @Column({
     nullable: true,
+    name: 'login_token'
   })
   loginToken: string;
 
   @Column({
     default: '',
+    name: 'phone_code'
   })
   phoneCode: string;
 
   @Column({
     default: '',
+    name: 'phone_number'
   })
   phoneNumber: string;
 
@@ -49,7 +52,7 @@ export class User extends BaseEntity {
   })
   dob: Date;
 
-  @Column({ default: true })
+  @Column({ default: true, name: 'is_active' })
   isActive: boolean;
 
   @Column({
@@ -59,6 +62,7 @@ export class User extends BaseEntity {
 
   @Column({
     nullable: true,
+    name: 'reset_code'
   })
   resetCode: string;
 
