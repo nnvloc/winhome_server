@@ -28,6 +28,8 @@ export default () => ({
     ACTIVE: 1,
     DISABLED: 2,
     REMOVED: 3,
+    WAITING_FOR_APPROVE: 4,
+    REJECTED: 5,
   },
   USER_STATUS: {
     ACTIVE: 1,

@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, Unique, AfterLoad } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, Unique, AfterLoad, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 
 import { BaseEntity } from '../../entities/base.entity';
+import { Room } from 'src/rooms/entities/rooms.entity';
 
 export const UserRole = {
   ADMIN: "admin",
@@ -65,6 +66,9 @@ export class User extends BaseEntity {
     name: 'reset_code'
   })
   resetCode: string;
+
+  @OneToMany(() => Room, room => room.owner)
+  rooms: Room[];
 
   @BeforeInsert()
   async hashPassword() {

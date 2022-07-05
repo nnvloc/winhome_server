@@ -9,4 +9,7 @@ export class ItemEntity extends BaseEntity {
     default: 'VND'
   })
   currency: string;
+
+  @Column()
+  note: string;
 }

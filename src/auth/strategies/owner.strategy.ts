@@ -19,7 +19,7 @@ export class OwnerStrategy extends PassportStrategy(Strategy, 'jwt-owner') {
 
   async validate(payload: { userId: number }) {
     const user = await this.userService.findById(payload.userId);
-    if (user.role === UserRole.ROOM_OWNER) {
+    if (user && user.role === UserRole.ROOM_OWNER) {
       return user;
     }
     return null;

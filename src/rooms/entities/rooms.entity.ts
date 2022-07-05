@@ -1,6 +1,7 @@
 import { ItemEntity } from '../../entities/item.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Category } from '../../categories/entities/category.entity';
+import { User } from 'src/users/entities/user.entity';
 @Entity()
 export class Room extends ItemEntity {
   @Column()
@@ -24,6 +25,13 @@ export class Room extends ItemEntity {
   @JoinColumn({ name: 'category_id' })
   @ManyToOne(() => Category, category => category.rooms)
   category: Category;
+
+  @Column({ name: 'user_id' })
+  userId: number;
+
+  @JoinColumn({ name: 'user_id' })
+  @ManyToOne(() => User, user => user.rooms)
+  owner: User;
 
   toJSON() {
     return this;

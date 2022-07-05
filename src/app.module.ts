@@ -16,7 +16,6 @@ import { SettingsModule } from './settings/settings.module';
 import { EmailModule } from './email/email.module';
 import { NotificationModule } from './notification/notification.module';
 import { StorageModule } from './storage/storage.module';
-import { ServicesModule } from './services/services.module';
 import { CategoriesModule } from './categories/categories.module';
 
 @Module({
@@ -33,7 +32,6 @@ import { CategoriesModule } from './categories/categories.module';
     EmailModule,
     // StorageModule,
     NotificationModule,
-    ServicesModule,
     CategoriesModule,
   ],
   controllers: [AppController],
