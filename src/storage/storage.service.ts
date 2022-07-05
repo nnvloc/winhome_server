@@ -19,7 +19,8 @@ export class StorageService {
     const AWS_ACCESS_KEY = this.configService.get('AWS_ACCESS_KEY');
     const AWS_SECRET_KEY = this.configService.get('AWS_SECRET_KEY');
     this.REGION = this.configService.get('AWS_REGION');
-    this.BUCKET = 'beauty-salon-sg';
+    // this.BUCKET = 'beauty-salon-sg';
+    this.BUCKET = 'learning-vapor-55';
     this.ALC = 'public-read';
     this.storage = new S3Client({
       credentials: {
@@ -57,7 +58,7 @@ export class StorageService {
       path += `${group}/`;
     }
 
-    path += `${key}`;
+    path += `winhome/${key}`;
 
     return new PutObjectCommand({
       Bucket: bucket,

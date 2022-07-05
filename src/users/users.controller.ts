@@ -75,7 +75,7 @@ export class UsersController {
       success: true,
       user: {
         ...user.toJSON(),
-        avatar: '',
+        avatar: fileURL,
       }
     };
   }
