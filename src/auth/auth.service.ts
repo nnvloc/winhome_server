@@ -33,7 +33,6 @@ export class AuthService {
 
     const createdUser = await this.usersService.create(createUserDto);
     return {
-      success: true,
       user: createdUser,
     }
   }

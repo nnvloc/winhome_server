@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { CustomLogger } from './logger/logger.service';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
+import { SuccessResponseTransformInterceptor } from './interceptors/response.interceptor';
 
 async function bootstrap() {
   try {
@@ -41,6 +42,7 @@ async function bootstrap() {
     const NODE_ENV = configService.get('NODE_ENV');
     // Register exception filter as global error handler
     app.useGlobalFilters(new AllExceptionsFilter(configService));
+    app.useGlobalInterceptors(new SuccessResponseTransformInterceptor());
 
     // Register logger with dependency injection method
     app.useLogger(app.get(CustomLogger));

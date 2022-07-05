@@ -34,11 +34,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
     this.logger.error(message);
-
     const responseData = exception.getResponse
-      ? exception.getResponse()
+      ? {
+        success: false,
+        ...exception.getResponse()
+      }
       : {
         statusCode: status,
+        success: false,
         message,
       };
 
