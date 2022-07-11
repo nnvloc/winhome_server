@@ -36,8 +36,8 @@ export class StorageService {
     bucket = this.BUCKET,
     key,
     group = '',
-  }): String {
-    let url = `https://${bucket}.s3.${this.REGION}.amazonaws.com`;
+  }): string {
+    let url = `https://${bucket}.s3.${this.REGION}.amazonaws.com/winhome`;
     if (group) {
       url += `/${group}`;
     }

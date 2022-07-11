@@ -13,20 +13,17 @@ import { Room } from '../../rooms/entities/rooms.entity';
 @Entity()
 @Unique(['name'])
 export class Category extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: Number;
-
   @Column()
-  name: String;
+  name: string;
 
   @Column({ default: false, name: 'is_default' })
-  isDefault: Boolean;
+  isDefault: boolean;
 
   @Column({ nullable: true, name: 'image_url' })
-  imageUrl: String;
+  imageUrl: string;
 
   @Column({ default: 1 })
-  status: Number;
+  status: number;
 
   @OneToMany(() => Room, room => room.category)
   rooms: Room[];

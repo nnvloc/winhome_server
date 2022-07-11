@@ -9,24 +9,11 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 
-export class CreateRoomDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
+export class CreateRoomAssetDto {
   @IsNotEmpty()
   @IsNumber()
   @Transform(({ value }) => Number(value), { toClassOnly: true })
-  price: number;
-
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsNumber()
-  @Transform(({ value }) => Number(value), { toClassOnly: true })
-  rooms: number;
+  roomId: number;
 
   @ApiProperty({
     type: String,
@@ -34,32 +21,27 @@ export class CreateRoomDto {
   })
   @IsNotEmpty()
   @IsString()
-  address: string;
+  url: string;
 
-  @ApiProperty({
-    type: Number,
-    required: false,
-  })
-  @IsNumber()
-  @IsOptional()
-  @Transform(({ value }) => Number(value), { toClassOnly: true })
-  lat: number;
-
-  @ApiProperty({
-    type: Number,
-    required: false,
-  })
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   @Transform(({ value }) => Number(value), { toClassOnly: true })
-  lng: number;
+  type: number;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  @Transform(({ value }) => Number(value), { toClassOnly: true })
-  userId: number;
+  fileName: string;
 
   @IsOptional()
   @IsString()
-  images: string[] | string
+  fileSize: string;
+
+  @IsNumber()
+  @IsOptional()
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  status: number;
+
+  @IsOptional()
+  @IsString()
+  fileExtendsion: string
 }

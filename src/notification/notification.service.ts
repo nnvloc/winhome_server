@@ -46,7 +46,6 @@ export class NotificationService {
       // Send a message to the device corresponding to the provided
       // registration token.
       const response = await this.Notification.messaging().send(message)
-      console.log('response: ', response);
       return {success: true, error: null};
     } catch(err) {
       console.log('err');

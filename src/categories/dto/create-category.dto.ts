@@ -24,16 +24,16 @@ export class CreateCategoryDto {
   })
   @IsOptional()
   @IsNumberString()
-  parentCategoryId: Number;
+  parentCategoryId: number;
 
   @IsOptional()
-  image: String;
+  image: string;
 
   @ApiProperty({
     type: Number,
     required: false,
   })
   @IsOptional()
-  @IsNumberString()
-  status: Number | String;
+  @IsNumber()
+  status: number;
 }

@@ -9,7 +9,7 @@ import {
 
 export class BaseEntity {
   @PrimaryGeneratedColumn()
-  id: Number;
+  id: number;
 
   @CreateDateColumn()
   created_at: Timestamp;

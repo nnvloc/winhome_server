@@ -1,6 +1,7 @@
 import { BaseEntity } from '../../entities/base.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Room } from './rooms.entity';
+import { ROOM_ASSETS_STATUS, ROOM_ASSETS_TYPE } from 'src/config';
 @Entity()
 export class RoomAssets extends BaseEntity {
   @Column({ name: 'room_id' })
@@ -13,7 +14,7 @@ export class RoomAssets extends BaseEntity {
   @Column()
   url: string;
 
-  @Column()
+  @Column({ default: ROOM_ASSETS_TYPE.IMAGE })
   type: number;
 
   @Column({ name: 'file_name' })
@@ -25,7 +26,7 @@ export class RoomAssets extends BaseEntity {
   @Column({ name: 'file_extendsion' })
   fileExtendsion: string;
 
-  @Column()
+  @Column({ default: ROOM_ASSETS_STATUS.ACTIVE})
   status: number;
 
   toJSON() {

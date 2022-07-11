@@ -45,7 +45,7 @@ export class CategoriesService {
     );
   }
 
-  async update(id: Number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+  async update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
     const { image = '', ...params } = updateCategoryDto;
     delete params.id;
     return this.repository.save({ id, ...params, imageUrl: image });

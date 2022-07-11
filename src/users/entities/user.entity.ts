@@ -24,6 +24,9 @@ export class User extends BaseEntity {
   @Column({ name: 'last_name' })
   lastName: string;
 
+  @Column({ name: 'full_name', default: '' })
+  fullName: string;
+
   @Column()
   email: string
 
@@ -49,7 +52,8 @@ export class User extends BaseEntity {
   phoneNumber: string;
 
   @Column({
-    default: new Date(),
+    nullable: true,
+    default: null,
   })
   dob: Date;
 
@@ -69,6 +73,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Room, room => room.owner)
   rooms: Room[];
+
+  @Column({
+    nullable: true,
+    default: '',
+  })
+  avatar: string;
 
   @BeforeInsert()
   async hashPassword() {

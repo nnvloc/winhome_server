@@ -10,6 +10,7 @@ import { UserResponseDto } from './dto/user-response.dto';
 
 import { UsersService } from './users.service';
 import { StorageService } from 'src/storage/storage.service';
+import { User } from './entities/user.entity';
 
 @ApiTags('users')
 @Controller('users')
@@ -21,14 +22,11 @@ export class UsersController {
   ) {}
 
   @Get()
-  async findAll(
-    @Res() res
-  ): Promise<void> {
+  async findAll() {
     const users = await this.usersService.findAll(null);
-    res.json({
-      success: true,
+    return {
       users: users.map(item => item.toJSON()),
-    });
+    }
   }
 
   // User profile
@@ -53,30 +51,39 @@ export class UsersController {
   @Put('profile')
   @UseInterceptors(FileInterceptor('avatar'))
   async updateProfile(
+    @Body() updateUserDto: UpdateUserDto,
     @UploadedFile() file: Express.Multer.File,
     @Request() req,
   ) {
     const {user} = req;
-    const {
-      buffer,
-      originalname,
-      filename,
-      size,
-      mimetype
-    } = file;
-    const params = this.storageService.prepareParams({
-      body: buffer,
-      key: originalname,
-    });
+    const updatedUser: User = {
+      ...user.toJSON(),
+      ...updateUserDto,
+    }
 
-    await this.storageService.upload(params);
-    const fileURL = this.storageService.preparePublicURL({key: originalname});
+    if (file) {
+      const {
+        buffer,
+        originalname,
+        filename,
+        size,
+        mimetype
+      } = file;
+      const filePath = `avatars/${originalname}`;
+      const params = this.storageService.prepareParams({
+        body: buffer,
+        key: filePath,
+      });
+
+      await this.storageService.upload(params);
+      const fileURL = this.storageService.preparePublicURL({key: filePath});
+      updatedUser.avatar = fileURL;
+    }
+
+    await this.usersService.update(updatedUser);
+
     return {
-      success: true,
-      user: {
-        ...user.toJSON(),
-        avatar: fileURL,
-      }
+      user: updatedUser,
     };
   }
   

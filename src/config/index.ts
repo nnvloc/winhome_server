@@ -1,3 +1,32 @@
+export const CATEGORY_STATUS = {
+  ACTIVE: 1,
+  DISABLED: 2,
+  REMOVED: 3,
+};
+
+export const ROOM_STATUS = {
+  ACTIVE: 1,
+  DISABLED: 2,
+  REMOVED: 3,
+  WAITING_FOR_APPROVED: 4,
+  REJECTED: 5,
+};
+
+export const USER_STATUS = {
+  ACTIVE: 1,
+  DISABLED: 2,
+  REMOVED: 3,
+};
+
+export const ROOM_ASSETS_TYPE = {
+  IMAGE: 1,
+}
+
+export const ROOM_ASSETS_STATUS = {
+  ACTIVE: 1,
+  DISABLE: 2,
+}
+
 export default () => ({
   AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY_ID,
   AWS_SECRET_KEY: process.env.AWS_SECRET_ACCESS_KEY,
@@ -19,21 +48,8 @@ export default () => ({
     synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
     subscribers: process.env.TYPEORM_SUBSCRIBERS,
   },
-  CATEGORY_STATUS: {
-    ACTIVE: 1,
-    DISABLED: 2,
-    REMOVED: 3,
-  },
-  ROOM_STATUS: {
-    ACTIVE: 1,
-    DISABLED: 2,
-    REMOVED: 3,
-    WAITING_FOR_APPROVE: 4,
-    REJECTED: 5,
-  },
-  USER_STATUS: {
-    ACTIVE: 1,
-    DISABLED: 2,
-    REMOVED: 3,
-  },
+  CATEGORY_STATUS,
+  ROOM_STATUS,
+  USER_STATUS,
+  ROOM_ASSETS_TYPE,
 });

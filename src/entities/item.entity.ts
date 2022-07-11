@@ -1,5 +1,6 @@
 import { BaseEntity } from './base.entity';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Transform } from 'class-transformer';
 
 export class ItemEntity extends BaseEntity {
   @Column()
@@ -10,6 +11,8 @@ export class ItemEntity extends BaseEntity {
   })
   currency: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   note: string;
 }

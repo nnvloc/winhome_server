@@ -12,7 +12,7 @@ export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
     type: Number,
     required: true,
   })
-  @IsNumberString()
+  @IsNumber()
   @IsNotEmpty()
-  id: Number | String;
+  id: number;
 }

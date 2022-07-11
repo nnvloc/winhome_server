@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
+import { PartialType } from '@nestjs/mapped-types';
 
 @Injectable()
 export class UsersService {
@@ -32,7 +33,7 @@ export class UsersService {
     return this.usersRepository.findOne(filters);
   }
 
-  update(user: User) {
+  async update(user: User): Promise<User> {
     return this.usersRepository.save(user);
   }
 

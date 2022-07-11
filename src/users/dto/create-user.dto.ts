@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString
 } from 'class-validator';
 
@@ -11,11 +12,19 @@ import { UserRole } from '../entities/user.entity';
 export class CreateUserDto {
   @ApiProperty({
     type: String,
-    required: true,
+    required: false,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   firstName: string;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  lastName: string;
 
   @ApiProperty({
     type: String,
@@ -23,7 +32,7 @@ export class CreateUserDto {
   })
   @IsNotEmpty()
   @IsString()
-  lastName: string;
+  fullName: string;
 
   @ApiProperty({
     type: String,
