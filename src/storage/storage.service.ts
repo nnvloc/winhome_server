@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 
 
@@ -77,5 +77,16 @@ export class StorageService {
     bucket = this.BUCKET
   }): Promise<any> {
     // return this.storage.send(new GetObjectCommand({Key: key, Bucket: bucket}));
+  }
+
+  async deleteObject({
+    key,
+    bucket = this.BUCKET
+  }): Promise<any> {
+    const deleteObjParams = {
+      Bucket: bucket,
+      Key: `winhome/${key}`,
+    }
+    return this.storage.send(new DeleteObjectCommand(deleteObjParams));
   }
 }

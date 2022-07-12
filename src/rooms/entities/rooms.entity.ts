@@ -21,12 +21,12 @@ export class Room extends ItemEntity {
   @Column({
     nullable: true
   })
-  lat: number;
+  lat?: number;
 
   @Column({
     nullable: true
   })
-  lng: number;
+  lng?: number;
 
   @Column({
     name: 'category_id',
@@ -47,8 +47,4 @@ export class Room extends ItemEntity {
 
   @OneToMany(() => RoomAssets, asset => asset.roomId)
   assets: RoomAssets[];
-
-  toJSON() {
-    return this;
-  }
 }

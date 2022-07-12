@@ -37,11 +37,27 @@ export class RoomAssetsService {
     return `This action returns all items`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+  findOne(id: number, options?: any) {
+    const defaultWhere = {
+      id,
+    }
+    let query = { ...defaultWhere };
+    const { where, ...opts } = options || {};
+    if (options && options.where) {
+      query = {
+        ...defaultWhere,
+        ...where,
+      }
+    }
+
+    return this.roomAssetsRepository.findOne({
+      where: query,
+      ...opts,
+    });
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+  delete(id: number) {
+    return this.roomAssetsRepository.delete(id);
   }
 }

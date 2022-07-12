@@ -3,7 +3,6 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateRoomDto } from './dto/create-room.dto';
-import { UpdateItemDto } from './dto/update-room.dto';
 import { Room } from './entities/rooms.entity';
 
 @Injectable()
@@ -22,12 +21,27 @@ export class RoomsService {
     return `This action returns all items`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+  findOne(id: number, options?: any): Promise<Room> {
+    const defaultWhere = {
+      id
+    };
+    let query = {...defaultWhere};
+    const { where, ...opts } = options || {};
+    if (where) {
+      query = {
+        ...defaultWhere,
+        ...where,
+      }
+    }
+    return this.roomsRepository.findOne({
+      where: query,
+      ...opts
+    });
   }
 
-  update(id: number, updateItemDto: UpdateItemDto) {
-    return `This action updates a #${id} item`;
+  async update(room: Room): Promise<Room> {
+    // return `This action updates a #${id} item`;
+    return this.roomsRepository.save(room);
   }
 
   remove(id: number) {
