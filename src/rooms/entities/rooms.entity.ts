@@ -34,6 +34,19 @@ export class Room extends ItemEntity {
   })
   categoryId: number;
 
+  @Column({ name: 'building', nullable: true, default: '' })
+  building: string;
+
+  @Column({ name: 'unit_no', nullable: true, default: '' })
+  unitNo: string;
+
+  @Column({
+    name: 'floor',
+    nullable: true,
+    default: null,
+  })
+  floor: string;
+
   @JoinColumn({ name: 'category_id' })
   @ManyToOne(() => Category, category => category.rooms)
   category: Category;
