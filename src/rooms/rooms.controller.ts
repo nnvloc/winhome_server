@@ -2,12 +2,13 @@ import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, UseInte
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
-import { OwnerGuard } from 'src/auth/guards/owner.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Room } from './entities/rooms.entity';
 import { RoomAssetsService } from './room-assets.service';
 import { RoomAssets } from './entities/room_assets.entity';
 import { StorageService } from 'src/storage/storage.service';
+import { ROOM_STATUS } from 'src/config';
 
 @Controller('rooms')
 export class RoomsController {
@@ -17,7 +18,7 @@ export class RoomsController {
     private readonly storageService: StorageService,
   ) {}
 
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FilesInterceptor('images'))
   async create(
@@ -46,10 +47,17 @@ export class RoomsController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
   ) {
-    return this.roomService.paginate({
-      page,
-      limit,
-    });
+    return this.roomService.paginate(
+      {
+        page,
+        limit,
+      },
+      {
+        where: {
+          status: ROOM_STATUS.ACTIVE,
+        }
+      }
+    );
   }
 
   @Get(':id')
@@ -57,7 +65,7 @@ export class RoomsController {
     return this.roomService.findOne(+id);
   }
 
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   @UseInterceptors(FilesInterceptor('images'))
   async update(
@@ -90,7 +98,7 @@ export class RoomsController {
     }
   }
 
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id/assets/:assetsId')
   async deleteAsset(
     @Param('id') id: number,
@@ -117,9 +125,20 @@ export class RoomsController {
     await this.roomAssetsService.delete(asset.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roomService.remove(+id);
+  async remove(
+    @Param('id') id: number,
+    @Request() req,
+  ) {
+    const { user } = req;
+    const room = await this.roomService.findOne(id, { where: { userId: user.id } });
+    if (!room) {
+      throw new Error('Not found.');
+    }
+    room.status = ROOM_STATUS.DISABLED;
+    // return this.roomService.remove(+id);
+    return await this.roomService.update(room);
   }
 
   async createRoomAssets(images: Array<Express.Multer.File>, room: Room) : Promise<RoomAssets[]> {

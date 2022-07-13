@@ -54,7 +54,7 @@ export class RoomsService {
     return `This action removes a #${id} item`;
   }
 
-  async paginate(options: IPaginationOptions): Promise<Pagination<Room>> {
-    return paginate<Room>(this.roomsRepository, options);
+  async paginate(options: IPaginationOptions, filter: any): Promise<Pagination<Room>> {
+    return paginate<Room>(this.roomsRepository, options, filter);
   }
 }
