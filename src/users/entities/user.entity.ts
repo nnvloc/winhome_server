@@ -52,8 +52,10 @@ export class User extends BaseEntity {
   phoneCode: string;
 
   @Column({
-    default: '',
-    name: 'phone_number'
+    default: null,
+    name: 'phone_number',
+    unique: true,
+    nullable: true,
   })
   phoneNumber: string;
 

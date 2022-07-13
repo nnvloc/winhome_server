@@ -61,7 +61,7 @@ export class CreateUserDto {
     type: String,
     required: true,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   phoneNumber: string;
 
@@ -69,7 +69,7 @@ export class CreateUserDto {
     type: String,
     required: true,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   dob: string;
 

@@ -1,6 +1,12 @@
-import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 import { CreateRoomDto } from './dto/create-room.dto';
 import { Room } from './entities/rooms.entity';
@@ -17,8 +23,8 @@ export class RoomsService {
     return createdRoom;
   }
 
-  findAll() {
-    return `This action returns all items`;
+  async findAll(filter: any) : Promise<Room[]> {
+    return this.roomsRepository.find(filter);
   }
 
   findOne(id: number, options?: any): Promise<Room> {
@@ -46,5 +52,9 @@ export class RoomsService {
 
   remove(id: number) {
     return `This action removes a #${id} item`;
+  }
+
+  async paginate(options: IPaginationOptions): Promise<Pagination<Room>> {
+    return paginate<Room>(this.roomsRepository, options);
   }
 }

@@ -36,6 +36,7 @@ export default () => ({
   API_KEY: process.env.API_KEY,
   NODE_ENV: process.env.NODE_ENV,
   PORT: parseInt(process.env.PORT, 10) || 3000,
+  BASE_URL: process.env.BASE_URL || 'localhost:3000',
   database: {
     extra: process.env.TYPEORM_DRIVER_EXTRA || null,
     url: process.env.TYPEORM_URL || process.env.DATABASE_URL || '',
