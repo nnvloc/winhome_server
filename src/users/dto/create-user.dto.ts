@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString
@@ -80,8 +81,11 @@ export class CreateUserDto {
   isActive?: boolean = true;
 
   @ApiProperty({
-    type: Boolean,
+    type: String,
     required: false,
   })
+  @IsOptional()
+  @IsString()
+  @IsEnum(UserRole)
   role?: string = UserRole.USER;
 }
