@@ -32,9 +32,7 @@ export class RoomsController {
     const createdRoom: Room = await this.roomService.create(createRoomDto);
 
     if (images) {
-      const roomAssets = await this.createRoomAssets(images, createdRoom);
-
-      createdRoom.assets = await this.roomAssetsService.bulkCreate(roomAssets);
+      this.createRoomAssets(images, createdRoom);
     }
 
     return {
@@ -86,9 +84,7 @@ export class RoomsController {
     }
 
     if (images) {
-      const roomAssets = await this.createRoomAssets(images, updatedRoom);
-
-      await this.roomAssetsService.bulkCreate(roomAssets);
+      this.createRoomAssets(images, updatedRoom);
     }
 
     await this.roomService.update(updatedRoom);
@@ -176,6 +172,7 @@ export class RoomsController {
     });
 
     const roomAssets: RoomAssets[] = await Promise.all(roomAssetsPromises);
-    return roomAssets;
+    const assets = await this.roomAssetsService.bulkCreate(roomAssets);
+    return assets;
   }
 }
