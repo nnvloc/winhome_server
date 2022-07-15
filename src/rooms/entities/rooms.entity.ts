@@ -58,6 +58,6 @@ export class Room extends ItemEntity {
   @ManyToOne(() => User, user => user.rooms)
   owner: User;
 
-  @OneToMany(() => RoomAssets, asset => asset.roomId)
+  @OneToMany(() => RoomAssets, asset => asset.room)
   assets: RoomAssets[];
 }

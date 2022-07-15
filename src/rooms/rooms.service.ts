@@ -10,6 +10,7 @@ import {
 
 import { CreateRoomDto } from './dto/create-room.dto';
 import { Room } from './entities/rooms.entity';
+import { ROOM_ASSETS_STATUS } from 'src/config';
 
 @Injectable()
 export class RoomsService {
@@ -55,6 +56,11 @@ export class RoomsService {
   }
 
   async paginate(options: IPaginationOptions, filter: any): Promise<Pagination<Room>> {
-    return paginate<Room>(this.roomsRepository, options, filter);
+    const relations = ['assets']
+    const finalFilter = {
+      relations,
+      ...filter
+    }
+    return paginate<Room>(this.roomsRepository, options, finalFilter);
   }
 }

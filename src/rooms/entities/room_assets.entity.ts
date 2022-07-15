@@ -8,7 +8,7 @@ export class RoomAssets extends BaseEntity {
   roomId: number;
 
   @JoinColumn({ name: 'room_id' })
-  @ManyToOne(() => Room, room => room.id)
+  @ManyToOne(() => Room, room => room.assets)
   room: Room;
 
   @Column()

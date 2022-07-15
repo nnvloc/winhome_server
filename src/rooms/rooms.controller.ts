@@ -8,7 +8,7 @@ import { Room } from './entities/rooms.entity';
 import { RoomAssetsService } from './room-assets.service';
 import { RoomAssets } from './entities/room_assets.entity';
 import { StorageService } from 'src/storage/storage.service';
-import { ROOM_STATUS } from 'src/config';
+import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
 
 @Controller('rooms')
 export class RoomsController {
@@ -44,6 +44,7 @@ export class RoomsController {
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    @Query('status', new DefaultValuePipe(ROOM_ASSETS_STATUS.ACTIVE), ParseIntPipe) status: number = ROOM_STATUS.ACTIVE,
   ) {
     return this.roomService.paginate(
       {
@@ -52,7 +53,30 @@ export class RoomsController {
       },
       {
         where: {
-          status: ROOM_STATUS.ACTIVE,
+          status: status,
+        }
+      }
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('my-rooms')
+  async getMyRooms(
+    @Request() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    @Query('status', new DefaultValuePipe(ROOM_ASSETS_STATUS.ACTIVE), ParseIntPipe) status: number = ROOM_STATUS.ACTIVE,
+  ) {
+    const { user } = req;
+    return this.roomService.paginate(
+      {
+        page,
+        limit,
+      },
+      {
+        where: {
+          status: status,
+          userId: user.id
         }
       }
     );
