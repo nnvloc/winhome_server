@@ -56,7 +56,7 @@ export class RoomsService {
   }
 
   async paginate(options: IPaginationOptions, filter: any): Promise<Pagination<Room>> {
-    const relations = ['assets']
+    const relations = ['assets'];
     const finalFilter = {
       relations,
       ...filter

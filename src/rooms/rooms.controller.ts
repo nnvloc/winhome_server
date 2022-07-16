@@ -65,9 +65,17 @@ export class RoomsController {
     @Request() req,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
-    @Query('status', new DefaultValuePipe(ROOM_ASSETS_STATUS.ACTIVE), ParseIntPipe) status: number = ROOM_STATUS.ACTIVE,
+    @Query('status', ParseIntPipe) status: number,
   ) {
     const { user } = req;
+    const filter: any = {
+      userId: user.id,
+    }
+
+    if (status && status > 0) {
+      filter.status = status
+    }
+
     return this.roomService.paginate(
       {
         page,
@@ -75,16 +83,15 @@ export class RoomsController {
       },
       {
         where: {
-          status: status,
-          userId: user.id
+          ...filter
         }
       }
     );
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roomService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.roomService.findOne(id, { relations: ['assets'] });
   }
 
   @UseGuards(JwtAuthGuard)
@@ -116,6 +123,28 @@ export class RoomsController {
     return {
       room: updatedRoom,
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post(':id/assets')
+  @UseInterceptors(FilesInterceptor('images'))
+  async createAssets(
+    @Param('id') id: number,
+    @Request() req,
+    @UploadedFiles() images: Array<Express.Multer.File>,
+  ) {
+    const { user } = req;
+
+    const room = await this.roomService.findOne(id, {where: { userId: user.id }});
+    if (!room) {
+      throw new Error('Not found.');
+    }
+
+    if (images) {  
+      await this.createRoomAssets(images, room);
+    }
+
+    return;
   }
 
   @UseGuards(JwtAuthGuard)
