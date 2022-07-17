@@ -59,6 +59,9 @@ export class RoomsService {
     const relations = ['assets'];
     const finalFilter = {
       relations,
+      order: {
+        createdAt: "DESC",
+      },
       ...filter
     }
     return paginate<Room>(this.roomsRepository, options, finalFilter);

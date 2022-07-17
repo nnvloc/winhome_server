@@ -54,7 +54,7 @@ export class RoomsController {
       {
         where: {
           status: status,
-        }
+        },
       }
     );
   }
@@ -65,7 +65,7 @@ export class RoomsController {
     @Request() req,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
-    @Query('status', ParseIntPipe) status: number,
+    @Query('status') status?: number,
   ) {
     const { user } = req;
     const filter: any = {

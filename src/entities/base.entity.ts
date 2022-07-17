@@ -11,12 +11,12 @@ export class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn()
-  created_at: Timestamp;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Timestamp;
 
-  @UpdateDateColumn()
-  updated_at: Timestamp;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Timestamp;
 
-  @DeleteDateColumn()
-  deleted_at: Timestamp;
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt: Timestamp;
 }

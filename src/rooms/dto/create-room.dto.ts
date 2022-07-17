@@ -86,4 +86,12 @@ export class CreateRoomDto {
   @IsOptional()
   @IsString()
   unitNo: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsOptional()
+  @IsString()
+  description: string;
 }
