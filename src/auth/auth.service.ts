@@ -26,7 +26,7 @@ export class AuthService {
 
   async adminLogin(authLoginDto: AuthLoginDto) {
     const user = await this.validateUser(authLoginDto);
-    if (user.role !== UserRole.ADMIN) {
+    if (user.role !== UserRole.SUPER_ADMIN) {
       throw new UnauthorizedException();
     }
 
