@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { User } from 'src/users/entities/user.entity';
+import { User, UserRole } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
@@ -14,6 +14,21 @@ export class AuthService {
 
   async login(authLoginDto: AuthLoginDto) {
     const user = await this.validateUser(authLoginDto);
+
+    const payload = {
+      userId: user.id,
+    };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+
+  async adminLogin(authLoginDto: AuthLoginDto) {
+    const user = await this.validateUser(authLoginDto);
+    if (user.role !== UserRole.ADMIN) {
+      throw new UnauthorizedException();
+    }
 
     const payload = {
       userId: user.id,

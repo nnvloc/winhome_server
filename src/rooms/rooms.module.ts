@@ -14,6 +14,7 @@ import { RoomAssets } from './entities/room_assets.entity';
     StorageModule
   ],
   controllers: [RoomsController],
-  providers: [RoomsService, RoomAssetsService]
+  providers: [RoomsService, RoomAssetsService],
+  exports: [RoomsService, RoomAssetsService],
 })
 export class RoomsModule {}

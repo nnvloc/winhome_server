@@ -20,6 +20,8 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { EmailService } from '../email/email.service';
 import { EmailMessage } from '../email/email.interfaces';
 
+import { UserRole } from 'src/users/entities/user.entity';
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -37,6 +39,13 @@ export class AuthController {
   @Post('sign-up')
   async signUp(@Body() createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);
+  }
+
+  @Post('admin/login')
+  async adminLogin(
+    @Body() authLoginDto: AuthLoginDto
+  ) {
+    return this.authService.adminLogin(authLoginDto);
   }
 
   @Post('forgot-password')

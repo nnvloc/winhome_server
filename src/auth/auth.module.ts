@@ -7,7 +7,7 @@ import { UsersModule } from 'src/users/users.module';
 import { EmailModule } from 'src/email/email.module';
 
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { OwnerStrategy } from './strategies/owner.strategy';
+import { AdminStrategy } from './strategies/admin.strategy';
 import { HeaderApiKeyStrategy } from './strategies/auth-header-api-key.strategy';
 
 import { AuthService } from './auth.service';
@@ -28,7 +28,7 @@ import { AuthController } from './auth.controller';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, HeaderApiKeyStrategy, OwnerStrategy],
+  providers: [AuthService, JwtStrategy, HeaderApiKeyStrategy, AdminStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

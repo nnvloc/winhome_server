@@ -17,6 +17,7 @@ import { EmailModule } from './email/email.module';
 import { NotificationModule } from './notification/notification.module';
 import { StorageModule } from './storage/storage.module';
 import { CategoriesModule } from './categories/categories.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CategoriesModule } from './categories/categories.module';
     // StorageModule,
     NotificationModule,
     CategoriesModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,7 +6,7 @@ import { UsersService } from '../../users/users.service';
 import { UserRole } from 'src/users/entities/user.entity';
 
 @Injectable()
-export class OwnerStrategy extends PassportStrategy(Strategy, 'jwt-owner') {
+export class AdminStrategy extends PassportStrategy(Strategy, 'jwt-admin') {
   constructor(
     private userService: UsersService
   ) {
@@ -19,7 +19,7 @@ export class OwnerStrategy extends PassportStrategy(Strategy, 'jwt-owner') {
 
   async validate(payload: { userId: number }) {
     const user = await this.userService.findById(payload.userId);
-    if (user && user.role === UserRole.ROOM_OWNER) {
+    if (user && user.role === UserRole.SUPER_ADMIN) {
       return user;
     }
     return null;
