@@ -6,6 +6,7 @@ import { Room } from 'src/rooms/entities/rooms.entity';
 import { RoomAssetsService } from 'src/rooms/room-assets.service';
 import { StorageService } from 'src/storage/storage.service';
 import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
+import { BadRequestError } from 'passport-headerapikey';
 
 @Controller('admin')
 export class AdminController {
@@ -51,6 +52,26 @@ export class AdminController {
     }
 
     room.status = ROOM_STATUS.ACTIVE;
+    return await this.roomService.update(room);
+  }
+
+  @UseGuards(AdminGuard)
+  @Put('rooms/:id/status')
+  async changeRoomStatus (
+    @Param('id') id: number,
+    @Request() req,
+  ) {
+    const { status } = req.body;
+    if (!status) {
+      throw new BadRequestError('Missing params');
+    }
+
+    const room = await this.roomService.findOne(id);
+    if (!room) {
+      throw new NotFoundException()
+    }
+
+    room.status = status;
     return await this.roomService.update(room);
   }
 }

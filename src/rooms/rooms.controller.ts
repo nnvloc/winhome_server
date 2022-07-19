@@ -9,6 +9,8 @@ import { RoomAssetsService } from './room-assets.service';
 import { RoomAssets } from './entities/room_assets.entity';
 import { StorageService } from 'src/storage/storage.service';
 import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
+import { RoomFilterDto } from './dto/room-filter.dto';
+import { MoreThanOrEqual, Between } from 'typeorm';
 
 @Controller('rooms')
 export class RoomsController {
@@ -45,7 +47,17 @@ export class RoomsController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
     @Query('status', new DefaultValuePipe(ROOM_ASSETS_STATUS.ACTIVE), ParseIntPipe) status: number = ROOM_STATUS.ACTIVE,
+    @Query('rooms') rooms: number = 0,
+    @Query('start_price') startPrice: number = 0,
+    @Query('end_price') endPrice: number = 0
   ) {
+    const filter: RoomFilterDto = {};
+    if (rooms) {
+      filter.rooms = rooms;
+    }
+    if (startPrice && endPrice && startPrice > 0 && endPrice > startPrice) {
+      filter.price = Between(startPrice, endPrice);
+    }
     return this.roomService.paginate(
       {
         page,
@@ -54,6 +66,7 @@ export class RoomsController {
       {
         where: {
           status: status,
+          ...filter,
         },
       }
     );
