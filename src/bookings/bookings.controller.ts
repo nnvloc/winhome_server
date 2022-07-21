@@ -65,24 +65,6 @@ export class BookingController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  async getBooking(
-    @Param('id') id: number,
-    @Request() req,
-  ) {
-    const { user } = req;
-    const booking = await this.bookingService.findOne(id, {
-      relations: ['user', 'item']
-    });
-
-    if (!booking || (booking.userId != user.id && booking.itemOwnerId !== user.id)) {
-      throw new NotFoundException();
-    }
-
-    return booking;
-  }
-
-  @UseGuards(JwtAuthGuard)
   @Get('/my-bookings')
   async getMyBookings(
     @Request() req,
@@ -191,5 +173,23 @@ export class BookingController {
 
     booking.status = status;
     return await this.bookingService.update(booking);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async getBooking(
+    @Param('id') id: number,
+    @Request() req,
+  ) {
+    const { user } = req;
+    const booking = await this.bookingService.findOne(id, {
+      relations: ['user', 'item']
+    });
+
+    if (!booking || (booking.userId != user.id && booking.itemOwnerId !== user.id)) {
+      throw new NotFoundException();
+    }
+
+    return booking;
   }
 }
