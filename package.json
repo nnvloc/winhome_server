@@ -33,6 +33,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "dayjs": "^1.11.4",
     "fastify-swagger": "^4.7.0",
     "firebase-admin": "^9.9.0",
     "nestjs-typeorm-paginate": "^3.1.3",

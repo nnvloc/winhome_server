@@ -27,6 +27,14 @@ export const ROOM_ASSETS_STATUS = {
   DISABLE: 2,
 }
 
+export const BOOKING_STATUS = {
+  WAITING_FOR_APPROVED: 1,
+  ACTIVE: 2,
+  CANCELED: 3,
+  COMPLETED: 4,
+  REJECTED: 5,
+}
+
 export default () => ({
   AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY_ID,
   AWS_SECRET_KEY: process.env.AWS_SECRET_ACCESS_KEY,

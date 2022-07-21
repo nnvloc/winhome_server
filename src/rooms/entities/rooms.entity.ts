@@ -5,6 +5,7 @@ import { User } from 'src/users/entities/user.entity';
 
 import { ROOM_STATUS } from 'src/config';
 import { RoomAssets } from './room_assets.entity';
+import { Booking } from 'src/bookings/entities/booking.entity';
 @Entity()
 export class Room extends ItemEntity {
   @Column()
@@ -66,4 +67,7 @@ export class Room extends ItemEntity {
 
   @OneToMany(() => RoomAssets, asset => asset.room)
   assets: RoomAssets[];
+
+  @OneToMany(() => Booking, booking => booking.item)
+  bookings: RoomAssets[];
 }

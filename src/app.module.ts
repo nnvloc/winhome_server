@@ -18,6 +18,7 @@ import { NotificationModule } from './notification/notification.module';
 import { StorageModule } from './storage/storage.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AdminModule } from './admin/admin.module';
+import { BookingModule } from './bookings/bookings.module'; 
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AdminModule } from './admin/admin.module';
     NotificationModule,
     CategoriesModule,
     AdminModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -47,7 +47,6 @@ export class RoomsService {
   }
 
   async update(room: Room): Promise<Room> {
-    // return `This action updates a #${id} item`;
     return this.roomsRepository.save(room);
   }
 
