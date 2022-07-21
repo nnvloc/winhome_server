@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, UseInterceptors, UploadedFiles, Req, Put, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
@@ -12,6 +13,7 @@ import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
 import { RoomFilterDto } from './dto/room-filter.dto';
 import { MoreThanOrEqual, Between } from 'typeorm';
 
+@ApiTags('rooms')
 @Controller('rooms')
 export class RoomsController {
   constructor(

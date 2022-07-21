@@ -1,4 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, UseInterceptors, UploadedFiles, Req, Put, Query, DefaultValuePipe, ParseIntPipe, NotFoundException, BadRequestException } from '@nestjs/common';
+import * as dayjs from 'dayjs';
+import { Between } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 import { BookingsService } from './bookings.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { StorageService } from 'src/storage/storage.service';
@@ -6,9 +9,10 @@ import { BOOKING_STATUS } from 'src/config';
 import { BookingDto } from './dto/booking.dto';
 import { Booking } from './entities/booking.entity';
 import { RoomsService } from 'src/rooms/rooms.service';
-import * as dayjs from 'dayjs';
-import { Between } from 'typeorm';
 
+
+
+@ApiTags('bookings')
 @Controller('bookings')
 export class BookingController {
   constructor(

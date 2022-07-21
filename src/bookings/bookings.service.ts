@@ -78,7 +78,7 @@ export class BookingsService {
     
     return { 
       errors: null,
-      success: false,
+      success: true,
     }
   }
 

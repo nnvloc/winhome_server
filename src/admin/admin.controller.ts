@@ -1,12 +1,13 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, UseInterceptors, UploadedFiles, Req, Put, Query, DefaultValuePipe, ParseIntPipe, NotFoundException, BadRequestException } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { RoomsService } from 'src/rooms/rooms.service';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { Room } from 'src/rooms/entities/rooms.entity';
 import { RoomAssetsService } from 'src/rooms/room-assets.service';
 import { StorageService } from 'src/storage/storage.service';
 import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
 
+
+@ApiTags('bookings')
 @Controller('admin')
 export class AdminController {
   constructor(
