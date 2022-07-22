@@ -8,12 +8,14 @@ import { Booking } from './entities/booking.entity';
 import { BookingController } from './bookings.controller';
 
 import { BookingsService } from './bookings.service';
+import { InvoicesModule } from 'src/invoices/invoices.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Booking]),
     StorageModule,
     RoomsModule,
+    InvoicesModule,
   ],
   controllers: [BookingController],
   providers: [BookingsService],

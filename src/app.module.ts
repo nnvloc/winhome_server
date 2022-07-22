@@ -19,6 +19,7 @@ import { StorageModule } from './storage/storage.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AdminModule } from './admin/admin.module';
 import { BookingModule } from './bookings/bookings.module'; 
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { BookingModule } from './bookings/bookings.module';
     CategoriesModule,
     AdminModule,
     BookingModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

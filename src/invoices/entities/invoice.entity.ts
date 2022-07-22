@@ -1,12 +1,14 @@
 import { Entity, Column, ManyToOne, JoinColumn, OneToMany, Timestamp, OneToOne } from 'typeorm';
+
+import { INVOICE_STATUS } from 'src/config';
+
 import { User } from 'src/users/entities/user.entity';
 import { BaseEntity } from 'src/entities/base.entity';
-import { BOOKING_STATUS } from 'src/config';
 import { Room } from 'src/rooms/entities/rooms.entity';
-import { Invoice } from 'src/invoices/entities/invoice.entity';
+import { Booking } from 'src/bookings/entities/booking.entity';
 
-@Entity('bookings')
-export class Booking extends BaseEntity {
+@Entity('invoices')
+export class Invoice extends BaseEntity {
   @Column({
     name: 'user_id',
     nullable: false,
@@ -26,27 +28,45 @@ export class Booking extends BaseEntity {
   itemOwnerId: number;
 
   @Column({
-    name: 'start_date',
+    name: 'booking_id',
     nullable: false,
-    type: 'timestamptz',
   })
-  startDate: Date;
+  bookingId: number;
 
   @Column({
-    name: 'end_date',
+    name: 'item_price',
     nullable: false,
-    type: 'timestamptz',
   })
-  endDate: Date;
+  itemPrice: number;
 
   @Column({
-    name: 'number_of_guests',
-    nullable: true,
+    name: 'total_amount',
+    nullable: false,
   })
-  numberOfGuests: number;
+  totalAmount: number;
 
   @Column({
-    default: BOOKING_STATUS.WAITING_FOR_APPROVED,
+    name: 'amount',
+    nullable: false,
+  })
+  amount: number;
+
+  @Column({
+    name: 'service_fee',
+    nullable: false,
+    default: 0,
+  })
+  serviceFee: number;
+
+  @Column({
+    name: 'tax',
+    nullable: false,
+    default: 0,
+  })
+  tax: number;
+
+  @Column({
+    default: INVOICE_STATUS.ACTIVE,
   })
   status: number;
 
@@ -55,12 +75,6 @@ export class Booking extends BaseEntity {
     default: '',
   })
   note: string;
-
-  @Column({
-    nullable: true,
-    default: null,
-  })
-  description: string;
 
   @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => User, user => user.bookings)
@@ -74,6 +88,7 @@ export class Booking extends BaseEntity {
   @ManyToOne(() => Room, room => room.bookings)
   item: Room;
 
-  @OneToOne(() => Invoice, invoice => invoice.booking)
-  invoice: Invoice
+  @JoinColumn({ name: 'booking_id' })
+  @OneToOne(() => Booking, booking => booking.invoice)
+  booking: Booking;
 }

@@ -35,6 +35,12 @@ export const BOOKING_STATUS = {
   REJECTED: 5,
 }
 
+export const INVOICE_STATUS = {
+  ACTIVE: 1,
+  PAID: 2,
+  CANCELED: 3,
+}
+
 export default () => ({
   AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY_ID,
   AWS_SECRET_KEY: process.env.AWS_SECRET_ACCESS_KEY,
@@ -47,6 +53,7 @@ export default () => ({
   BASE_URL: process.env.BASE_URL || 'localhost:3000',
   database: {
     extra: process.env.TYPEORM_DRIVER_EXTRA || null,
+    // url: 'postgres://postgres:winhomepg@139.180.219.34:5432/winhome?sslmode=disable', // QA server
     url: process.env.TYPEORM_URL || process.env.DATABASE_URL || '',
     connection: process.env.TYPEORM_CONNECTION || 'posgres',
     host: process.env.TYPEORM_HOST,

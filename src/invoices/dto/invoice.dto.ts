@@ -9,10 +9,8 @@ import {
 
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import * as dayjs from 'dayjs';
-import { Invoice } from 'src/invoices/entities/invoice.entity';
 
-export class BookingDto {
+export class InvoiceDto {
   @ApiProperty({
     type: Number,
     required: true,
@@ -40,22 +38,22 @@ export class BookingDto {
   itemOwnerId?: number;
 
   @ApiProperty({
-    type: String,
+    type: Number,
     required: true,
   })
   @IsNotEmpty()
-  @IsDate()
-  @Transform(({ value }) => dayjs(value).set('hour', 14).set('minute', 0).set('second', 0).toDate(), { toClassOnly: true})
-  startDate: Date;
+  @IsNumber()
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  bookingId: number;
 
   @ApiProperty({
-    type: String,
+    type: Number,
     required: true,
   })
   @IsNotEmpty()
-  @IsDate()
-  @Transform(({ value }) => dayjs(value).set('hour', 12).set('minute', 0).set('second', 0).toDate(), { toClassOnly: true})
-  endDate: Date;
+  @IsNumber()
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  itemPrice: number;
 
   @ApiProperty({
     type: Number,
@@ -64,7 +62,34 @@ export class BookingDto {
   @IsOptional()
   @IsNumber()
   @Transform(({ value }) => Number(value), { toClassOnly: true })
-  numberOfGuests?: number;
+  serviceFee?: number;
+
+  @ApiProperty({
+    type: Number,
+    required: false,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  tax?: number;
+
+  @ApiProperty({
+    type: Number,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  amount: number;
+
+  @ApiProperty({
+    type: Number,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  totalAmount: number;
 
   @ApiProperty({
     type: Number,
@@ -82,18 +107,6 @@ export class BookingDto {
   @IsOptional()
   @IsString()
   note?: string;
-
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
-  @IsOptional()
-  @IsString()
-  description?: string;
-
-  @ApiProperty()
-  @IsOptional()
-  invoice?: Invoice;
 
   @ApiProperty({
     type: Date,

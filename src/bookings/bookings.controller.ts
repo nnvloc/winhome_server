@@ -6,10 +6,13 @@ import { BookingsService } from './bookings.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { StorageService } from 'src/storage/storage.service';
 import { BOOKING_STATUS } from 'src/config';
-import { BookingDto } from './dto/booking.dto';
+import { CreateBookingDto } from './dto/create-booking.dto';
 import { Booking } from './entities/booking.entity';
 import { RoomsService } from 'src/rooms/rooms.service';
-
+import { BookingDto } from './dto/booking.dto';
+import { InvoicesService } from 'src/invoices/invoices.service';
+import { InvoiceDto } from 'src/invoices/dto/invoice.dto';
+import { InvoiceAmountDto } from 'src/invoices/dto/amount.dto';
 
 
 @ApiTags('bookings')
@@ -18,7 +21,8 @@ export class BookingController {
   constructor(
     private readonly bookingService: BookingsService,
     private readonly storageService: StorageService,
-    private readonly roomsService: RoomsService
+    private readonly roomsService: RoomsService,
+    private readonly invoicesService: InvoicesService,
   ) {}
 
   @Get()
@@ -125,28 +129,61 @@ export class BookingController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Body() bookingDto: BookingDto,
+    @Body() createBookingDto: CreateBookingDto,
     @Request() req,
     ) {
     const { user } = req;
-    bookingDto.userId = user.id;
+    const {
+      itemId,
+      startDate,
+      endDate,
+      numberOfGuests,
+      itemPrice,
+      serviceFee,
+      tax,
+      note,
+      description,
+    } = createBookingDto;
 
-    const room = await this.roomsService.findOne(bookingDto.itemId);
+    const room = await this.roomsService.findOne(itemId);
     if (!room) {
       throw new NotFoundException();
     }
 
-    const { errors, success } = await this.bookingService.validateBooking(bookingDto);
+    const newBooking: BookingDto = {
+      userId: user.id,
+      itemId,
+      itemOwnerId: room.userId,
+      startDate,
+      endDate,
+      numberOfGuests,
+      note,
+      description,
+    }
+
+    const { errors, success } = await this.bookingService.validateBooking(newBooking);
     if (!success) {
       throw new BadRequestException(errors);
     }
 
-    bookingDto.itemOwnerId = room.userId;
-    bookingDto.amount = 0;
-    bookingDto.totalAmount = 0;
-    bookingDto.tax = 0;
+    const createdBooking: Booking = await this.bookingService.create(newBooking);
 
-    const createdBooking: Booking = await this.bookingService.create(bookingDto);
+    const { amount, totalAmount } : InvoiceAmountDto = this.invoicesService.calculateInvoice(createdBooking, itemPrice, serviceFee, tax);
+
+    const newInvoice: InvoiceDto = {
+      userId: user.id,
+      itemId,
+      itemOwnerId: room.userId,
+      bookingId: createdBooking.id,
+      itemPrice,
+      serviceFee,
+      tax,
+      amount,
+      totalAmount
+    }
+
+    const invoice = await this.invoicesService.create(newInvoice);
+    createdBooking.invoice = invoice;
 
     return {
       booking: createdBooking,

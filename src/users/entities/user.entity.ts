@@ -4,6 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { BaseEntity } from '../../entities/base.entity';
 import { Room } from 'src/rooms/entities/rooms.entity';
 import { Booking } from 'src/bookings/entities/booking.entity';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
 
 export const UserRole = {
   ADMIN: "admin",
@@ -88,6 +89,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Booking, booking => booking.itemOwner)
   ownerBookings: Booking[];
+
+  @OneToMany(() => Invoice, invoice => invoice.user)
+  invocies: Invoice[];
+
+  @OneToMany(() => Invoice, invoice => invoice.itemOwner)
+  ownerInvocies: Invoice[];
 
   @Column({
     nullable: true,
