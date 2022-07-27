@@ -25,13 +25,14 @@ export class BookingController {
     private readonly invoicesService: InvoicesService,
   ) {}
 
-  @Get()
+  @UseGuards(JwtAuthGuard)
+  @Get('/blocks')
   async find(
     @Query('startDate') startDate: string,
     @Query('endDate') endDate: string,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
-    @Query('status') status?: number,
+    @Query('status', new DefaultValuePipe(BOOKING_STATUS.ACTIVE), ParseIntPipe) status: number = BOOKING_STATUS.ACTIVE,
     @Query('itemId') itemId?: number,
   ) {
     const start = dayjs(startDate).startOf('month');
@@ -55,13 +56,10 @@ export class BookingController {
       filters[1].itemId = itemId;
     }
 
-    const bookings = await this.bookingService.paginate(
+    const bookings = await this.bookingService.findAll(
       {
-        page,
-        limit,
-      },
-      {
-        where: filters
+        where: filters,
+        select: ['startDate', 'endDate'],
       }
     )
 
@@ -220,7 +218,7 @@ export class BookingController {
   ) {
     const { user } = req;
     const booking = await this.bookingService.findOne(id, {
-      relations: ['user', 'item']
+      relations: ['user', 'item', 'invoice']
     });
 
     if (!booking || (booking.userId != user.id && booking.itemOwnerId !== user.id)) {

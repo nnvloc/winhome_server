@@ -1,5 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, UseInterceptors, UploadedFiles, Req, Put, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, UseInterceptors, UploadedFiles, Req, Put, Query, DefaultValuePipe, ParseIntPipe, BadRequestException, NotFoundException } from '@nestjs/common';
+import * as dayjs from 'dayjs';
+
 import { ApiTags } from '@nestjs/swagger';
+
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
@@ -12,6 +15,8 @@ import { StorageService } from 'src/storage/storage.service';
 import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
 import { RoomFilterDto } from './dto/room-filter.dto';
 import { MoreThanOrEqual, Between } from 'typeorm';
+import { BookingsService } from 'src/bookings/bookings.service';
+import { Booking } from 'src/bookings/entities/booking.entity';
 
 @ApiTags('rooms')
 @Controller('rooms')
@@ -20,6 +25,7 @@ export class RoomsController {
     private readonly roomService: RoomsService,
     private readonly roomAssetsService: RoomAssetsService,
     private readonly storageService: StorageService,
+    private readonly bookingsService: BookingsService
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -104,11 +110,6 @@ export class RoomsController {
     );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.roomService.findOne(id, { relations: ['assets'] });
-  }
-
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   @UseInterceptors(FilesInterceptor('images'))
@@ -187,6 +188,48 @@ export class RoomsController {
     });
 
     await this.roomAssetsService.delete(asset.id);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.roomService.findOne(id, { relations: ['assets'] });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id/reservations')
+  async getRoomReservations(
+    @Request() req,
+    @Param('id') id: number,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ) {
+    const start = dayjs(startDate).startOf('month');
+    const end = dayjs(endDate || startDate).endOf('month');
+    const { user } = req;
+
+    const room = await this.roomService.findOne(id);
+    if (!room || room.userId !== user.id) {
+      throw new NotFoundException('Not found');
+    }
+
+    let filters: any = { itemId: id };
+
+    if(startDate && endDate) {
+      filters = [
+        {
+          startDate: Between(start, end),
+          itemId: id,
+        },
+        {
+          endDate: Between(start, end),
+          itemId: id,
+        }
+      ]
+    }
+
+    const bookings: Booking[] = await this.bookingsService.findAll({ where: filters });
+
+    return bookings;
   }
 
   @UseGuards(JwtAuthGuard)

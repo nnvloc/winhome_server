@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StorageModule } from 'src/storage/storage.module';
 
@@ -14,7 +14,7 @@ import { InvoicesModule } from 'src/invoices/invoices.module';
   imports: [
     TypeOrmModule.forFeature([Booking]),
     StorageModule,
-    RoomsModule,
+    forwardRef(() => RoomsModule),
     InvoicesModule,
   ],
   controllers: [BookingController],

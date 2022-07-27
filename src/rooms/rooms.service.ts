@@ -40,6 +40,8 @@ export class RoomsService {
         ...where,
       }
     }
+    console.log('query: ', query);
+    console.log('...opts: ', opts);
     return this.roomsRepository.findOne({
       where: query,
       ...opts
