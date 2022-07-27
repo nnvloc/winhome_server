@@ -12,7 +12,7 @@ import { Room } from './entities/rooms.entity';
 import { RoomAssetsService } from './room-assets.service';
 import { RoomAssets } from './entities/room_assets.entity';
 import { StorageService } from 'src/storage/storage.service';
-import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
+import { BOOKING_STATUS, ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
 import { RoomFilterDto } from './dto/room-filter.dto';
 import { MoreThanOrEqual, Between } from 'typeorm';
 import { BookingsService } from 'src/bookings/bookings.service';
@@ -219,10 +219,12 @@ export class RoomsController {
         {
           startDate: Between(start, end),
           itemId: id,
+          status: BOOKING_STATUS.ACTIVE,
         },
         {
           endDate: Between(start, end),
           itemId: id,
+          status: BOOKING_STATUS.ACTIVE,
         }
       ]
     }
