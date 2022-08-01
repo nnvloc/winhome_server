@@ -1,4 +1,4 @@
-import { Between, Repository } from 'typeorm';
+import { Between, Repository, In } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -59,11 +59,11 @@ export class BookingsService {
     const existedBooking = await this.repository.findOne({
       where: [
         {
-          status: BOOKING_STATUS.ACTIVE,
+          status: In([BOOKING_STATUS.ACTIVE, BOOKING_STATUS.WAITING_FOR_APPROVED]),
           startDate: Between(startDate, endDate),
         },
         {
-          status: BOOKING_STATUS.ACTIVE,
+          status: In([BOOKING_STATUS.ACTIVE, BOOKING_STATUS.WAITING_FOR_APPROVED]),
           endDate: Between(startDate, endDate),
         }
       ]
