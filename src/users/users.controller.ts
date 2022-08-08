@@ -11,6 +11,7 @@ import { UserResponseDto } from './dto/user-response.dto';
 import { UsersService } from './users.service';
 import { StorageService } from 'src/storage/storage.service';
 import { User } from './entities/user.entity';
+import { DEFAULT_TOP_UP_TURNS } from 'src/config';
 
 @ApiTags('users')
 @Controller('users')
@@ -86,8 +87,18 @@ export class UsersController {
       user: updatedUser,
     };
   }
-  
   // End Update user profile
+
+  @UseGuards(JwtAuthGuard)
+  @Put('add-top-up-turn')
+  async addTopUpTurn(
+    @Request() req,
+  ) {
+    const { user } = req;
+    user.availabelTopUpTurn += DEFAULT_TOP_UP_TURNS;
+    await this.usersService.update(user);
+    return user;
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')

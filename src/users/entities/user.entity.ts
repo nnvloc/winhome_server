@@ -102,6 +102,13 @@ export class User extends BaseEntity {
   })
   avatar: string;
 
+  @Column({
+    name: 'available_top_up_turn',
+    default: 10,
+    nullable: false,
+  })
+  availabelTopUpTurn: number;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 8);

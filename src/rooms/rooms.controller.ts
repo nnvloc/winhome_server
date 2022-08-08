@@ -17,11 +17,13 @@ import { RoomFilterDto } from './dto/room-filter.dto';
 import { MoreThanOrEqual, Between } from 'typeorm';
 import { BookingsService } from 'src/bookings/bookings.service';
 import { Booking } from 'src/bookings/entities/booking.entity';
+import { UsersService } from 'src/users/users.service';
 
 @ApiTags('rooms')
 @Controller('rooms')
 export class RoomsController {
   constructor(
+    private readonly usersService: UsersService,
     private readonly roomService: RoomsService,
     private readonly roomAssetsService: RoomAssetsService,
     private readonly storageService: StorageService,
@@ -38,6 +40,7 @@ export class RoomsController {
     ) {
     const {user} = req;
     createRoomDto.userId = user.id;
+    createRoomDto.priorityAt = dayjs().toDate();
 
     const createdRoom: Room = await this.roomService.create(createRoomDto);
 
@@ -108,6 +111,36 @@ export class RoomsController {
         }
       }
     );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(':id/up')
+  async updateUpTurn(
+    @Request() req,
+    @Param('id') id: number,
+  ) {
+    const { user } = req;
+
+    if (user.availabelTopUpTurn <= 0) {
+      throw new BadRequestException('Out of availabel top up turns.');
+    }
+
+    const room = await this.roomService.findOne(id);
+
+    if (!room || room.userId !== user.id) {
+      throw new NotFoundException('Not found.');
+    }
+
+    if (user.availabelTopUpTurn <= 0) {
+      throw new BadRequestException('Out of top up turn. Please buy more turns');
+    }
+
+    room.priorityAt = dayjs().toDate();
+
+    await this.roomService.update(room);
+    user.availabelTopUpTurn -= 1;
+    await this.usersService.update(user);
+    return room;
   }
 
   @UseGuards(JwtAuthGuard)
@@ -190,11 +223,6 @@ export class RoomsController {
     await this.roomAssetsService.delete(asset.id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.roomService.findOne(id, { relations: ['assets'] });
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get(':id/reservations')
   async getRoomReservations(
@@ -232,6 +260,11 @@ export class RoomsController {
     const bookings: Booking[] = await this.bookingsService.findAll({ where: filters });
 
     return bookings;
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.roomService.findOne(id, { relations: ['assets'] });
   }
 
   @UseGuards(JwtAuthGuard)

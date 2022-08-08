@@ -61,7 +61,8 @@ export class RoomsService {
     const finalFilter = {
       relations,
       order: {
-        updatedAt: "DESC",
+        priorityAt: "DESC",
+        createdAt: "DESC",
       },
       ...filter
     }

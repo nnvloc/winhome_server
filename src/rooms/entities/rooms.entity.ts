@@ -1,5 +1,5 @@
 import { ItemEntity } from '../../entities/item.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, Timestamp, } from 'typeorm';
 import { Category } from '../../categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
 
@@ -54,6 +54,13 @@ export class Room extends ItemEntity {
     default: null,
   })
   description: string;
+
+  @Column({
+    name: 'priority_at',
+    nullable: true,
+    default: null,
+  })
+  priorityAt?: Date;
 
   @JoinColumn({ name: 'category_id' })
   @ManyToOne(() => Category, category => category.rooms)

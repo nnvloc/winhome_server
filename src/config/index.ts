@@ -41,6 +41,8 @@ export const INVOICE_STATUS = {
   CANCELED: 3,
 }
 
+export const DEFAULT_TOP_UP_TURNS = 10;
+
 export default () => ({
   AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY_ID,
   AWS_SECRET_KEY: process.env.AWS_SECRET_ACCESS_KEY,

@@ -10,4 +10,8 @@ export class UpdateRoomDto extends PartialType(CreateRoomDto) {
   @IsNumber()
   @IsOptional()
   status: number;
+
+  @IsNumber()
+  @IsOptional()
+  upTurn?: number;
 }

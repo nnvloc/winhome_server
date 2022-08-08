@@ -8,11 +8,13 @@ import { RoomsController } from './rooms.controller';
 import { RoomAssetsService } from './room-assets.service';
 import { RoomAssets } from './entities/room_assets.entity';
 import { BookingModule } from 'src/bookings/bookings.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Room, RoomAssets]),
     StorageModule,
+    UsersModule,
     forwardRef(() => BookingModule),
   ],
   controllers: [RoomsController],

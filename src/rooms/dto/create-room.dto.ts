@@ -1,10 +1,13 @@
 import {
+  IsDate,
   IsEmail,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString
 } from 'class-validator';
+
+import * as dayjs from 'dayjs';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
@@ -94,4 +97,9 @@ export class CreateRoomDto {
   @IsOptional()
   @IsString()
   description: string;
+
+  @Transform(({ value }) => dayjs(value).toDate(), { toClassOnly: true})
+  @IsOptional()
+  @IsDate()
+  priorityAt? : Date;
 }
