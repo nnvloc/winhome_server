@@ -4,7 +4,8 @@ import { RoomsService } from 'src/rooms/rooms.service';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
 import { RoomAssetsService } from 'src/rooms/room-assets.service';
 import { StorageService } from 'src/storage/storage.service';
-import { ROOM_ASSETS_STATUS, ROOM_STATUS } from 'src/config';
+import { ROOM_ASSETS_STATUS, ROOM_STATUS, DEFAULT_TOP_UP_TURNS } from 'src/config';
+import { UsersService } from 'src/users/users.service';
 
 
 @ApiTags('bookings')
@@ -14,6 +15,7 @@ export class AdminController {
     private readonly roomService: RoomsService,
     private readonly roomAssetsService: RoomAssetsService,
     private readonly storageService: StorageService,
+    private readonly userService: UsersService,
   ) {}
 
   @UseGuards(AdminGuard)
@@ -73,5 +75,22 @@ export class AdminController {
 
     room.status = status;
     return await this.roomService.update(room);
+  }
+
+  @UseGuards(AdminGuard)
+  @Put('users/:id/up-turn')
+  async updateUserUpTurn(
+    @Param('id') id: number,
+    @Request() req,
+  ) {
+    const { numberOfTurn } = req.body;
+
+    const user = await this.userService.findById(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    user.availabelTopUpTurn += numberOfTurn ?? DEFAULT_TOP_UP_TURNS;
+    return await this.userService.update(user);
   }
 }
