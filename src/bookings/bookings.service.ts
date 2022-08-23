@@ -56,7 +56,7 @@ export class BookingsService {
   async validateBooking(booking: BookingDto) {
     const { startDate, endDate, itemId } = booking;
 
-    const existedBooking = await this.repository.findOne({
+    const existedBooking : Booking = await this.repository.findOne({
       where: [
         {
           status: In([BOOKING_STATUS.ACTIVE, BOOKING_STATUS.WAITING_FOR_APPROVED]),

@@ -24,7 +24,7 @@ export class UsersController {
 
   @Get()
   async findAll() {
-    const users = await this.usersService.findAll(null);
+    const users : User[] = await this.usersService.findAll(null);
     return {
       users: users.map(item => item.toJSON()),
     }
@@ -70,14 +70,14 @@ export class UsersController {
         size,
         mimetype
       } = file;
-      const filePath = `avatars/${originalname}`;
+      const filePath : string = `avatars/${originalname}`;
       const params = this.storageService.prepareParams({
         body: buffer,
         key: filePath,
       });
 
       await this.storageService.upload(params);
-      const fileURL = this.storageService.preparePublicURL({key: filePath});
+      const fileURL : string = this.storageService.preparePublicURL({key: filePath});
       updatedUser.avatar = fileURL;
     }
 

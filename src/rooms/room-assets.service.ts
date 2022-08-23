@@ -18,7 +18,7 @@ export class RoomAssetsService {
     // return createdRoom;
   }
 
-  async bulkCreate(data: RoomAssets[]) {
+  async bulkCreate(data: RoomAssets[]) : Promise<RoomAssets[]> {
     const createdAssets = await this.roomAssetsRepository.create(data);
     await this.roomAssetsRepository.save(createdAssets);
     return createdAssets;
@@ -37,7 +37,7 @@ export class RoomAssetsService {
     return `This action returns all items`;
   }
 
-  findOne(id: number, options?: any) {
+  async findOne(id: number, options?: any) : Promise<RoomAssets> {
     const defaultWhere = {
       id,
     }

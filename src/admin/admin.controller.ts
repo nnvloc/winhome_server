@@ -4,8 +4,9 @@ import { RoomsService } from 'src/rooms/rooms.service';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
 import { RoomAssetsService } from 'src/rooms/room-assets.service';
 import { StorageService } from 'src/storage/storage.service';
-import { ROOM_ASSETS_STATUS, ROOM_STATUS, DEFAULT_TOP_UP_TURNS } from 'src/config';
+import { ROOM_STATUS, DEFAULT_TOP_UP_TURNS } from 'src/config';
 import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/entities/user.entity';
 
 
 @ApiTags('bookings')
@@ -85,7 +86,7 @@ export class AdminController {
   ) {
     const { numberOfTurn } = req.body;
 
-    const user = await this.userService.findById(id);
+    const user : User = await this.userService.findById(id);
     if (!user) {
       throw new NotFoundException();
     }

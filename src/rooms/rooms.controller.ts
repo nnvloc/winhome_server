@@ -125,7 +125,7 @@ export class RoomsController {
       throw new BadRequestException('Out of availabel top up turns.');
     }
 
-    const room = await this.roomService.findOne(id);
+    const room : Room = await this.roomService.findOne(id);
 
     if (!room || room.userId !== user.id) {
       throw new NotFoundException('Not found.');
@@ -153,7 +153,7 @@ export class RoomsController {
     @UploadedFiles() images: Array<Express.Multer.File>,
   ) {
     const { user } = req;
-    const room = await this.roomService.findOne(id);
+    const room : Room = await this.roomService.findOne(id);
     if (!room || room.userId !== user.id) {
       throw new Error('Not found.');
     }
@@ -184,7 +184,7 @@ export class RoomsController {
   ) {
     const { user } = req;
 
-    const room = await this.roomService.findOne(id, {where: { userId: user.id }});
+    const room : Room = await this.roomService.findOne(id, {where: { userId: user.id }});
     if (!room) {
       throw new Error('Not found.');
     }
@@ -205,12 +205,12 @@ export class RoomsController {
   ) {
     const { user } = req;
 
-    const room = await this.roomService.findOne(id, {where: { userId: user.id }});
+    const room : Room = await this.roomService.findOne(id, {where: { userId: user.id }});
     if (!room) {
       throw new Error('Not found.');
     }
 
-    const asset = await this.roomAssetsService.findOne(assetsId, { where: { roomId: room.id } });
+    const asset : RoomAssets = await this.roomAssetsService.findOne(assetsId, { where: { roomId: room.id } });
     if (!asset) {
       throw new Error('Not found.');
     }
@@ -235,7 +235,7 @@ export class RoomsController {
     const end = dayjs(endDate || startDate).endOf('month');
     const { user } = req;
 
-    const room = await this.roomService.findOne(id);
+    const room : Room = await this.roomService.findOne(id);
     if (!room || room.userId !== user.id) {
       throw new NotFoundException('Not found');
     }
@@ -274,7 +274,7 @@ export class RoomsController {
     @Request() req,
   ) {
     const { user } = req;
-    const room = await this.roomService.findOne(id, { where: { userId: user.id } });
+    const room : Room = await this.roomService.findOne(id, { where: { userId: user.id } });
     if (!room) {
       throw new Error('Not found.');
     }
@@ -318,7 +318,7 @@ export class RoomsController {
     });
 
     const roomAssets: RoomAssets[] = await Promise.all(roomAssetsPromises);
-    const assets = await this.roomAssetsService.bulkCreate(roomAssets);
+    const assets : RoomAssets[] = await this.roomAssetsService.bulkCreate(roomAssets);
     return assets;
   }
 }

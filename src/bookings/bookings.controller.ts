@@ -2,6 +2,11 @@ import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, UseInte
 import * as dayjs from 'dayjs';
 import { Between } from 'typeorm';
 import { ApiTags } from '@nestjs/swagger';
+
+import {
+  Pagination,
+} from 'nestjs-typeorm-paginate';
+
 import { BookingsService } from './bookings.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { StorageService } from 'src/storage/storage.service';
@@ -13,6 +18,8 @@ import { BookingDto } from './dto/booking.dto';
 import { InvoicesService } from 'src/invoices/invoices.service';
 import { InvoiceDto } from 'src/invoices/dto/invoice.dto';
 import { InvoiceAmountDto } from 'src/invoices/dto/amount.dto';
+import { Invoice } from 'src/invoices/entities/invoice.entity';
+import { Room } from 'src/rooms/entities/rooms.entity';
 
 
 @ApiTags('bookings')
@@ -56,7 +63,7 @@ export class BookingController {
       filters[1].itemId = itemId;
     }
 
-    const bookings = await this.bookingService.findAll(
+    const bookings : Booking[] = await this.bookingService.findAll(
       {
         where: filters,
         select: ['startDate', 'endDate'],
@@ -79,7 +86,7 @@ export class BookingController {
     if (status && status > 0) {
       filters.status = status;
     }
-    const bookings = await this.bookingService.paginate(
+    const bookings : Pagination<Booking> = await this.bookingService.paginate(
       {
         page,
         limit,
@@ -108,7 +115,7 @@ export class BookingController {
     if (status && status > 0) {
       filters.status = status;
     }
-    const bookings = await this.bookingService.paginate(
+    const bookings : Pagination<Booking> = await this.bookingService.paginate(
       {
         page,
         limit,
@@ -143,7 +150,7 @@ export class BookingController {
       description,
     } = createBookingDto;
 
-    const room = await this.roomsService.findOne(itemId);
+    const room : Room = await this.roomsService.findOne(itemId);
     if (!room) {
       throw new NotFoundException();
     }
@@ -180,7 +187,7 @@ export class BookingController {
       totalAmount
     }
 
-    const invoice = await this.invoicesService.create(newInvoice);
+    const invoice : Invoice = await this.invoicesService.create(newInvoice);
     createdBooking.invoice = invoice;
 
     return {
@@ -201,7 +208,7 @@ export class BookingController {
       throw new BadRequestException('Missing params');
     }
 
-    const booking = await this.bookingService.findOne(id);
+    const booking : Booking = await this.bookingService.findOne(id);
     if (!booking || booking.itemOwnerId !== user.id) {
       throw new NotFoundException()
     }
@@ -217,7 +224,7 @@ export class BookingController {
     @Request() req,
   ) {
     const { user } = req;
-    const booking = await this.bookingService.findOne(id, {
+    const booking : Booking = await this.bookingService.findOne(id, {
       relations: ['user', 'item', 'invoice']
     });
 
